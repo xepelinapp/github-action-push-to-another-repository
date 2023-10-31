@@ -183,10 +183,10 @@ while [ $retry_count -lt $max_retries ]; do
         echo "Push exitoso"
         break  
     else
-        echo "Error al hacer push. Intento número $((retry_count + 1)) de $max_retries"
+        echo "[+] Error al hacer push. Intento número $((retry_count + 1)) de $max_retries"
         ((retry_count++))
         if [ $retry_count -eq $max_retries ]; then
-            echo "Se ha alcanzado el número máximo de intentos. Deteniendo el script."
+            echo "[+] Se ha alcanzado el número máximo de intentos. Deteniendo el script."
             exit 1 
         fi
         sleep 5
