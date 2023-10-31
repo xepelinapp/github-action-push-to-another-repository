@@ -172,4 +172,23 @@ git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE"
 
 echo "[+] Pushing git commit"
 # --set-upstream: sets de branch when pushing to a branch that does not exist
-git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH" -f
+# git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH" -f
+
+max_retries=3
+retry_count=0
+
+while [ $retry_count -lt $max_retries ]; do
+    git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH" -f
+    if [ $? -eq 0 ]; then
+        echo "Push exitoso"
+        break  
+    else
+        echo "Error al hacer push. Intento número $((retry_count + 1)) de $max_retries"
+        ((retry_count++))
+        if [ $retry_count -eq $max_retries ]; then
+            echo "Se ha alcanzado el número máximo de intentos. Deteniendo el script."
+            exit 1 
+        fi
+        sleep 5
+    fi
+done
