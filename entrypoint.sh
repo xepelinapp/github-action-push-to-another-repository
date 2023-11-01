@@ -182,7 +182,7 @@ while [ $retry_count -lt $max_retries ]; do
     if [ $? -eq 0 ]; then
         echo "Push exitoso"
         break  
-    else
+    elif [ $? -eq 1 ]; then
         echo "Error al hacer push. Intento número $((retry_count + 1)) de $max_retries"
         ((retry_count++))
         if [ $retry_count -eq $max_retries ]; then
